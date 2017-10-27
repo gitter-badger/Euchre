@@ -134,13 +134,13 @@ enum deckType {
 	case poker, standard, euchre, doubleEuchre, pinochle, other
 	func makeDeck() -> Deck {
 		switch self {
-		case poker:
+		case .poker:
 			return makeStandardDeck()
-		case standard:
+		case .standard:
 			return makeStandardDeck()
-		case doubleEuchre:
+		case .doubleEuchre:
 			return makeDoubleEuchreDeck()
-		case pinochle:
+		case .pinochle:
 			return makePinochleDeck()
 		default:
 			return Deck.init()

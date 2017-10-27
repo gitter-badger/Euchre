@@ -73,11 +73,11 @@ extension MutableCollection where Index == Int {
 	mutating func shuffleInPlace() {
 		// empty and single-element collections don't shuffle
 		if count < 2 { return }
-
-		for i in 0 ..< (-1 + count) {
-			let j = Int(arc4random_uniform(UInt32(count - i))) + i
+		let cardCount = self.endIndex - self.startIndex
+		for i in self.startIndex ..< self.endIndex {
+			let j = Int(arc4random_uniform(UInt32(cardCount - i))) + i
 			guard i != j else { continue }
-			swap(&self[i], &self[j])
+			self.swapAt(i, j)
 		}
 	}
 }

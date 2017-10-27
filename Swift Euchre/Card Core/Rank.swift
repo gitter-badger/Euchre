@@ -18,39 +18,39 @@ public enum Rank: Int {
 	
 	func dispName() -> String {
 		switch self {
-		case loAce:
+		case .loAce:
 			return "Ace"
-		case deuce:
+		case .deuce:
 			return "Deuce"
-		case two:
+		case .two:
 			return "Two"
-		case three:
+		case .three:
 			return "Three"
-		case four:
+		case .four:
 			return "Four"
-		case five:
+		case .five:
 			return "Five"
-		case six:
+		case .six:
 			return "Six"
-		case seven:
+		case .seven:
 			return "Seven"
-		case eight:
+		case .eight:
 			return "Eight"
-		case nine:
+		case .nine:
 			return "Nine"
-		case ten:
+		case .ten:
 			return "Ten"
-		case jack:
+		case .jack:
 			return "Jack"
-		case queen:
+		case .queen:
 			return "Queen"
-		case king:
+		case .king:
 			return "King"
-		case hiAce:
+		case .hiAce:
 			return "Ace"
-		case leftBower:
+		case .leftBower:
 			return "Left Bower"
-		case rightBower:
+		case .rightBower:
 			return "Right Bower"
 		default:
 			return ""
@@ -58,28 +58,28 @@ public enum Rank: Int {
 	}
 	
 	// Leaving in trumpAware in case it's useful to have that hard-coded here.
-	func shortName(_ trumpAware: Bool?=nil) -> Character {
-		if trumpAware == true && (self == leftBower || self  == rightBower) {
+	func shortName(trumpAware: Bool = false) -> Character {
+		if trumpAware && (self == .leftBower || self  == .rightBower) {
 			return "J"
 		}
 		switch self {
-		case deuce:
+		case .deuce:
 			return "2"
-		case loAce:
+		case .loAce:
 			return "A"
-		case ten:
+		case .ten:
 			return "⒑" // need this or some other non-ASCII representation of 10 to prevent runtime errors
-		case jack:
+		case .jack:
 			return "J"
-		case queen:
+		case .queen:
 			return "Q"
-		case king:
+		case .king:
 			return "K"
-		case hiAce:
+		case .hiAce:
 			return "A"
-		case leftBower:
+		case .leftBower:
 			return "◀"
-		case rightBower:
+		case .rightBower:
 			return "▶"
 		default:
 			return Character(String(self.rawValue))

@@ -9,6 +9,11 @@
 import Foundation
 
 final class Hand: CardCollection {
+	func index(after i: Int) -> Int {
+		return i + 1
+	}
+
+
 	var collective = [Card]()
 	init() { }
 	

@@ -151,7 +151,7 @@ class Table {
 extension Array {
 	func forEach(_ doThis: (_ element: Element) -> Void) {
 		for e in self {
-			doThis(element: e)
+			doThis(e)
 		}
 	}
 }
