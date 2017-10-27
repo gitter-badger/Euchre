@@ -7,8 +7,34 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
 
 class Deck: CardCollection {
+	/// Returns the position immediately after the given index.
+	///
+	/// The successor of an index must be well defined. For an index `i` into a
+	/// collection `c`, calling `c.index(after: i)` returns the same index every
+	/// time.
+	///
+	/// - Parameter i: A valid index of the collection. `i` must be less than
+	///   `endIndex`.
+	/// - Returns: The index value immediately after `i`.
+	func index(after i: Int) -> Int {
+		return i + 1
+	}
+
 	
 	// Make Deck
 	var collective = [Card]()
@@ -29,7 +55,8 @@ class Deck: CardCollection {
 	}
 	
 	// Deal
-	func deal(hands: [Player], var kitty: Hand?=nil, deadSize: Int?=0) {
+	func deal(_ hands: [Player], kitty: Hand?=nil, deadSize: Int?=0) {
+		var kitty = kitty
 		collective.shuffleInPlace()
 		// Make sure the deal will work
 		guard deadSize < self.count  else {
@@ -44,7 +71,7 @@ class Deck: CardCollection {
 		while self.count-deadSize! >= hands.count {
 			for var player in hands {
 				// is there a way to treat self like hand and use it as a var instead of a let?
-				player.hand.append(self.collective.removeAtIndex(loc!))
+				player.hand.append(self.collective.remove(at: loc!))
 			}
 		}
 		
@@ -86,8 +113,8 @@ extension Deck: CustomStringConvertible {
 	}
 }
 
-func makeEuchreDeck(number: Int?=1) -> Deck {
-	return Deck.init(lowRank: (Rank).Nine, highRank: (Rank).HiAce, number: number!)
+func makeEuchreDeck(_ number: Int?=1) -> Deck {
+	return Deck.init(lowRank: (Rank).nine, highRank: (Rank).hiAce, number: number!)
 }
 
 func makeDoubleEuchreDeck() -> Deck {
@@ -98,22 +125,22 @@ func makePinochleDeck() -> Deck {
 	return makeDoubleEuchreDeck()
 }
 
-func makeStandardDeck(number: Int?=1) -> Deck {
-	return Deck.init(lowRank: (Rank).Two, highRank: (Rank).HiAce, number: number!)
+func makeStandardDeck(_ number: Int?=1) -> Deck {
+	return Deck.init(lowRank: (Rank).two, highRank: (Rank).hiAce, number: number!)
 }
 
 
 enum deckType {
-	case Poker, Standard, Euchre, DoubleEuchre, Pinochle, other
+	case poker, standard, euchre, doubleEuchre, pinochle, other
 	func makeDeck() -> Deck {
 		switch self {
-		case Poker:
+		case poker:
 			return makeStandardDeck()
-		case Standard:
+		case standard:
 			return makeStandardDeck()
-		case DoubleEuchre:
+		case doubleEuchre:
 			return makeDoubleEuchreDeck()
-		case Pinochle:
+		case pinochle:
 			return makePinochleDeck()
 		default:
 			return Deck.init()

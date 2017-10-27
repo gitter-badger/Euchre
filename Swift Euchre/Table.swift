@@ -7,6 +7,30 @@
 //
 
 import Foundation
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func < <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l < r
+  case (nil, _?):
+    return true
+  default:
+    return false
+  }
+}
+
+// FIXME: comparison operators with optionals were removed from the Swift Standard Libary.
+// Consider refactoring the code to use the non-optional operators.
+fileprivate func > <T : Comparable>(lhs: T?, rhs: T?) -> Bool {
+  switch (lhs, rhs) {
+  case let (l?, r?):
+    return l > r
+  default:
+    return rhs < lhs
+  }
+}
+
 
 class Table {
 	var Players: [Player] = []
@@ -39,7 +63,7 @@ class Table {
 		}
 	}
 	
-	func callTrump(lead: Player?=nil) {
+	func callTrump(_ lead: Player?=nil) {
 		//replace the beginning with the player calling trump
 		let trump = Int(arc4random_uniform(6))
 		scoringMethod = trump
@@ -68,7 +92,7 @@ class Table {
 		}
 	}
 	
-	func playHand(dealerPos: Int) {
+	func playHand(_ dealerPos: Int) {
 		deal()
 		biddingSequence(dealerPos)
 		for _ in Players[leadPos].hand {
@@ -86,7 +110,7 @@ class Table {
 		trick!.empty(deck)
 	}
 	
-	func biddingSequence(dealerPos: Int) {
+	func biddingSequence(_ dealerPos: Int) {
 		leadPos = randomPlayer() // replace this later
 		callTrump()
 		winningBid = [Int(arc4random_uniform(12)), leadPos]
@@ -108,10 +132,10 @@ class Table {
 	}
 	
 	func scoreInRange() -> Bool {
-		if score.maxElement() > winningScore {
+		if score.max() > winningScore {
 			return false // end game if someone won
 		}
-		if score.minElement() < losingScore {
+		if score.min() < losingScore {
 			return false // end game if someone lost
 		}
 		for teamScore in score {
@@ -125,7 +149,7 @@ class Table {
 }
 
 extension Array {
-	func forEach(doThis: (element: Element) -> Void) {
+	func forEach(_ doThis: (_ element: Element) -> Void) {
 		for e in self {
 			doThis(element: e)
 		}

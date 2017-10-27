@@ -9,54 +9,54 @@
 import Foundation
 
 public enum Suit: Int {
-	case Joker = 0
-	case Clubs, Diamonds, Spades, Hearts
-	case Trump
+	case joker = 0
+	case clubs, diamonds, spades, hearts
+	case trump
 	
 	func dispName() -> String {
 		switch self {
-		case .Joker:
+		case .joker:
 			return "Joker"
-		case .Clubs:
+		case .clubs:
 			return "Clubs"
-		case Diamonds:
+		case .diamonds:
 			return "Diamonds"
-		case .Spades:
+		case .spades:
 			return "Spades"
-		case .Hearts:
+		case .hearts:
 			return "Hearts"
-		case .Trump:
+		case .trump:
 			return "Trump"
 		}
 	}
 	
 	func shortName() -> Character {
 		switch self {
-		case .Joker:
+		case .joker:
 			return "🃏"
-		case .Clubs:
+		case .clubs:
 			return "♣️"
-		case Diamonds:
+		case .diamonds:
 			return "♦️"
-		case .Spades:
+		case .spades:
 			return "♠️"
-		case .Hearts:
+		case .hearts:
 			return "♥️"
-		case .Trump:
+		case .trump:
 			return "🌟"
 		}
 	}
 	
 	func oppositeSuit() -> Suit {
 		switch self {
-		case .Clubs:
-			return .Spades
-		case Diamonds:
-			return .Hearts
-		case .Spades:
-			return .Clubs
-		case .Hearts:
-			return .Diamonds
+		case .clubs:
+			return .spades
+		case .diamonds:
+			return .hearts
+		case .spades:
+			return .clubs
+		case .hearts:
+			return .diamonds
 		default:
 			return self
 		}
@@ -64,22 +64,22 @@ public enum Suit: Int {
 	
 	// These functions also have pass-throughs in the Card class
 	
-	func isSuit(suit: Suit) -> Bool {
+	func isSuit(_ suit: Suit) -> Bool {
 		return self == suit
 	}
 	
 	func isTrump() -> Bool {
-		return isSuit(.Trump)
+		return isSuit(.trump)
 	}
 	func isJoker() -> Bool {
-		return isSuit(.Joker)
+		return isSuit(.joker)
 	}
 	
 	func isRed() -> Bool {
-		return isSuit(.Diamonds) || isSuit(.Hearts)
+		return isSuit(.diamonds) || isSuit(.hearts)
 	}
 	func isBlack() -> Bool {
-		return isSuit(.Clubs) || isSuit(.Spades)
+		return isSuit(.clubs) || isSuit(.spades)
 	}
 	
 	func isNotTrump() -> Bool {

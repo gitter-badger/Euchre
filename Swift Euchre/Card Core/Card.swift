@@ -28,44 +28,45 @@ public struct Card: Comparable {
 	//
 	// Card functions
 	//
-	mutating func changeRank(newRank: Rank) {
+	mutating func changeRank(_ newRank: Rank) {
 		rank = newRank
 	}
-	mutating func changeSuit(newSuit: Suit) {
+	mutating func changeSuit(_ newSuit: Suit) {
 		suit = newSuit
 	}
-	mutating func makeTrump(var trumpSuit: Suit?=nil) {
+	mutating func makeTrump(_ trumpSuit: Suit?=nil) {
+		var trumpSuit = trumpSuit
 		// Pass in a suit to add a safeguard
 		// Don't pass in a suit for force the card to trump
 		if trumpSuit == nil {
-			changeSuit((Suit).Trump)
+			changeSuit((Suit).trump)
 			return
 		}
 		
-		trumpSuit = trumpSuit ?? (Suit).Trump
+		trumpSuit = trumpSuit ?? (Suit).trump
 		if isSuit(trumpSuit!) {
 			makeTrump()
-			if isValue((Rank).Jack) {
-				changeRank((Rank).RightBower)
+			if isValue((Rank).jack) {
+				changeRank((Rank).rightBower)
 			}
 		}
-		if isSuit(trumpSuit!.oppositeSuit()) && isValue((Rank).Jack) {
+		if isSuit(trumpSuit!.oppositeSuit()) && isValue((Rank).jack) {
 			makeTrump()
-			changeRank((Rank).LeftBower)
+			changeRank((Rank).leftBower)
 		}
 	}
-	mutating func revertFromTrump(trumpSuit: Suit) {
+	mutating func revertFromTrump(_ trumpSuit: Suit) {
 		// Safeguard to prevet this from overwriting all cards when looping through a hand
 		if isTrump() {
 			changeSuit(trumpSuit)
 		}
 	}
 	
-	func isSameCard(compCard: Card) -> Bool {
+	func isSameCard(_ compCard: Card) -> Bool {
 		return compCard.isSuit(suit) && compCard.isValue(rank)
 	}
 	
-	func beats(compCard: Card, compFunction: (Card, Card) -> Bool) -> Bool {
+	func beats(_ compCard: Card, compFunction: (Card, Card) -> Bool) -> Bool {
 		return compFunction(compCard, self)
 	}
 }
@@ -76,10 +77,11 @@ extension Card: CustomStringConvertible {
 	//
 	
 	// Long Name: better for debugging, since relies on the "actual" value of the card
-	func longName(var trumpSuit: Suit?=nil) -> String {
+	func longName(_ trumpSuit: Suit?=nil) -> String {
+		var trumpSuit = trumpSuit
 		var out = self.rank.dispName()
 		if isBower() {} else if self.isTrump() {
-			trumpSuit = trumpSuit ?? (Suit).Trump
+			trumpSuit = trumpSuit ?? (Suit).trump
 			out += " of " + trumpSuit!.dispName()
 		} else {
 			out += " of " + self.suit.dispName()
@@ -87,7 +89,7 @@ extension Card: CustomStringConvertible {
 		return out
 	}
 	// Human-readable form for 2-character display
-	func shortName(trumpSuit: Suit?=nil) -> String {
+	func shortName(_ trumpSuit: Suit?=nil) -> String {
 		let S = self.displaySuit.shortName()
 		let R = self.displayRank.shortName()
 		return String(R) + String(S)
@@ -114,10 +116,10 @@ extension Card {
 	func isBower() -> Bool{
 		return rank.isBower()
 	}
-	func isValue(cmpVal: Rank)-> Bool {
+	func isValue(_ cmpVal: Rank)-> Bool {
 		return rank.isValue(cmpVal)
 	}
-	func isNotVal(cmpVal: Rank) -> Bool {
+	func isNotVal(_ cmpVal: Rank) -> Bool {
 		return rank.isNotValue(cmpVal)
 	}
 }
@@ -129,7 +131,7 @@ extension Card {
 	func isBlack() -> Bool {
 		return suit.isBlack()
 	}
-	func isSuit(chkSut: Suit) -> Bool {
+	func isSuit(_ chkSut: Suit) -> Bool {
 		return suit.isSuit(chkSut)
 	}
 	func isTrump() -> Bool {
@@ -150,7 +152,7 @@ extension Card {
 	func isSpecialSuit() -> Bool { // Again, which name is better: isSpecialSuit or isUnusualSuit?
 		return suit.isUnusualSuit()
 	}
-	func followsSuit(chkSuit: Suit) -> Bool{ // This should be more useful for scoring
+	func followsSuit(_ chkSuit: Suit) -> Bool{ // This should be more useful for scoring
 		return isSuit(chkSuit) || self.isTrump() // don't use this when evaluating player hands
 	}
 	
@@ -172,7 +174,7 @@ public func ==(L🎴: Card, R🎴: Card) -> Bool {
 
 
 // Better implementations of sorting
-public func SuitSorted(L🎴: Card, _ R🎴: Card) -> Bool {
+public func SuitSorted(_ L🎴: Card, _ R🎴: Card) -> Bool {
 	// Compare suit first.
 	if L🎴.suit != R🎴.suit {
 		return L🎴.suit < R🎴.suit
@@ -181,7 +183,7 @@ public func SuitSorted(L🎴: Card, _ R🎴: Card) -> Bool {
 	return L🎴.rank < R🎴.rank
 }
 // Same as above but with Rank and Suit swapped
-public func RankSorted(L🎴: Card, _ R🎴: Card) -> Bool {
+public func RankSorted(_ L🎴: Card, _ R🎴: Card) -> Bool {
 	if L🎴.rank != R🎴.rank {
 		return L🎴.rank < R🎴.rank
 	}
@@ -189,9 +191,9 @@ public func RankSorted(L🎴: Card, _ R🎴: Card) -> Bool {
 }
 
 // Sorts trump cards as if they were members of the suit that was declared trump
-public func DisplaySorted(L🎴: Card, _ R🎴: Card) -> Bool {
-	let lsuit = L🎴.rank == (Rank).LeftBower ? L🎴.displaySuit.oppositeSuit() : L🎴.displaySuit
-	let rsuit = R🎴.rank == (Rank).LeftBower ? R🎴.displaySuit.oppositeSuit() : R🎴.displaySuit
+public func DisplaySorted(_ L🎴: Card, _ R🎴: Card) -> Bool {
+	let lsuit = L🎴.rank == (Rank).leftBower ? L🎴.displaySuit.oppositeSuit() : L🎴.displaySuit
+	let rsuit = R🎴.rank == (Rank).leftBower ? R🎴.displaySuit.oppositeSuit() : R🎴.displaySuit
 	if lsuit != rsuit {
 		return lsuit < rsuit
 	}

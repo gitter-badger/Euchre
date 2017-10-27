@@ -8,7 +8,7 @@
 
 import Foundation
 
-protocol CardCollection : RangeReplaceableCollectionType, CustomStringConvertible {
+protocol CardCollection : RangeReplaceableCollection, CustomStringConvertible {
 	var collective : [Card] { get set }
 }
 
@@ -26,16 +26,16 @@ extension CardCollection  {
 		}
 	}
 	
-	mutating func replaceRange<C : CollectionType where C.Generator.Element == Card>(subRange: Range<Int>, with newElements: C) {
-		collective.replaceRange(subRange, with: newElements)
+	mutating func replaceRange<C : Collection>(_ subRange: Range<Int>, with newElements: C) where C.Iterator.Element == Card {
+		collective.replaceSubrange(subRange, with: newElements)
 	}
 	
 	mutating func shuffleInPlace() {
 		collective.shuffleInPlace()
 	}
 	
-	mutating func sortInPlace(sortFun: (Card, Card) -> Bool?=DisplaySorted) {
-		collective.sortInPlace({sortFun($0,$1)!})
+	mutating func sortInPlace(_ sortFun: (Card, Card) -> Bool?=DisplaySorted) {
+		collective.sort(by: {sortFun($0,$1)!})
 	}
 	
 	mutating func sortBySuit() {
@@ -50,7 +50,7 @@ extension CardCollection  {
 	
 	// for some reason, it complains about card being a let variable if I use
 	// for card in collective { card.makeTrump(trumpSuit) }
-	mutating func convertToTrump(trumpSuit: Suit) {
+	mutating func convertToTrump(_ trumpSuit: Suit) {
 		for i in 0..<collective.count {
 			collective[i].makeTrump(trumpSuit)
 		}
@@ -59,22 +59,22 @@ extension CardCollection  {
 
 
 
-extension CollectionType {
+extension Collection {
 	/// Return a copy of `self` with its elements shuffled
-	func shuffle() -> [Generator.Element] {
+	func shuffle() -> [Iterator.Element] {
 		var list = Array(self)
 		list.shuffleInPlace()
 		return list
 	}
 }
 
-extension MutableCollectionType where Index == Int {
+extension MutableCollection where Index == Int {
 	/// Shuffle the elements of `self` in-place.
 	mutating func shuffleInPlace() {
 		// empty and single-element collections don't shuffle
 		if count < 2 { return }
-		
-		for i in 0..<count - 1 {
+
+		for i in 0 ..< (-1 + count) {
 			let j = Int(arc4random_uniform(UInt32(count - i))) + i
 			guard i != j else { continue }
 			swap(&self[i], &self[j])

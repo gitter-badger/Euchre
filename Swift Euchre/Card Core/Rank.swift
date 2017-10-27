@@ -10,47 +10,47 @@ import Foundation
 
 
 public enum Rank: Int {
-	case LoAce = 0
-	case Deuce, Two, Three, Four, Five, Six, Seven, Eight, Nine, Ten
-	case Jack, Queen, King, HiAce, LeftBower, RightBower
+	case loAce = 0
+	case deuce, two, three, four, five, six, seven, eight, nine, ten
+	case jack, queen, king, hiAce, leftBower, rightBower
 	case invalid = -1
 	case blank = -2
 	
 	func dispName() -> String {
 		switch self {
-		case LoAce:
+		case loAce:
 			return "Ace"
-		case Deuce:
+		case deuce:
 			return "Deuce"
-		case Two:
+		case two:
 			return "Two"
-		case Three:
+		case three:
 			return "Three"
-		case Four:
+		case four:
 			return "Four"
-		case Five:
+		case five:
 			return "Five"
-		case Six:
+		case six:
 			return "Six"
-		case Seven:
+		case seven:
 			return "Seven"
-		case Eight:
+		case eight:
 			return "Eight"
-		case Nine:
+		case nine:
 			return "Nine"
-		case Ten:
+		case ten:
 			return "Ten"
-		case Jack:
+		case jack:
 			return "Jack"
-		case Queen:
+		case queen:
 			return "Queen"
-		case King:
+		case king:
 			return "King"
-		case HiAce:
+		case hiAce:
 			return "Ace"
-		case LeftBower:
+		case leftBower:
 			return "Left Bower"
-		case RightBower:
+		case rightBower:
 			return "Right Bower"
 		default:
 			return ""
@@ -58,51 +58,51 @@ public enum Rank: Int {
 	}
 	
 	// Leaving in trumpAware in case it's useful to have that hard-coded here.
-	func shortName(trumpAware: Bool?=nil) -> Character {
-		if trumpAware == true && (self == LeftBower || self  == RightBower) {
+	func shortName(_ trumpAware: Bool?=nil) -> Character {
+		if trumpAware == true && (self == leftBower || self  == rightBower) {
 			return "J"
 		}
 		switch self {
-		case Deuce:
+		case deuce:
 			return "2"
-		case LoAce:
+		case loAce:
 			return "A"
-		case Ten:
+		case ten:
 			return "⒑" // need this or some other non-ASCII representation of 10 to prevent runtime errors
-		case Jack:
+		case jack:
 			return "J"
-		case Queen:
+		case queen:
 			return "Q"
-		case King:
+		case king:
 			return "K"
-		case HiAce:
+		case hiAce:
 			return "A"
-		case LeftBower:
+		case leftBower:
 			return "◀"
-		case RightBower:
+		case rightBower:
 			return "▶"
 		default:
 			return Character(String(self.rawValue))
 		}
 	}
 	
-	func isValue(value: Rank) -> Bool {
+	func isValue(_ value: Rank) -> Bool {
 		return self == value
 	}
-	func isNotValue(value: Rank) -> Bool {
+	func isNotValue(_ value: Rank) -> Bool {
 		return !isValue(value)
 	}
 	
 	func isAce() -> Bool {
-		return isValue(.LoAce) || isValue(.HiAce)
+		return isValue(.loAce) || isValue(.hiAce)
 	}
 	
 	func is2() -> Bool {
-		return isValue(.Deuce) || isValue(.Two)
+		return isValue(.deuce) || isValue(.two)
 	}
 	
 	func isBower() -> Bool {
-		return isValue(.LeftBower) || isValue(.RightBower)
+		return isValue(.leftBower) || isValue(.rightBower)
 	}
 	
 	func isValid() -> Bool {

@@ -25,7 +25,7 @@ class ComputerPlayer: Player {
 	}
 	
 	func playCard() -> Card {
-		return hand.removeAtIndex(0)
+		return hand.remove(at: 0)
 	}
 	
 	func sort() {

@@ -12,8 +12,8 @@ final class Hand: CardCollection {
 	var collective = [Card]()
 	init() { }
 	
-	func playCard(loc: Int) -> Card {
-		return collective.removeAtIndex(loc)
+	func playCard(_ loc: Int) -> Card {
+		return collective.remove(at: loc)
 	}
 	
 }

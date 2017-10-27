@@ -11,7 +11,7 @@ import Foundation
 print("Welcome to Swift Euchre!")
 
 
-var Game = Table.init(gameType: (deckType).DoubleEuchre, winningScore: 50, losingScore: -50, terminalScore: -25)
+var Game = Table.init(gameType: (deckType).doubleEuchre, winningScore: 50, losingScore: -50, terminalScore: -25)
 
 Game.Players.append(ComputerPlayer.init(playerName: "Mike", team: 0, loc: 0))
 Game.Players.append(ComputerPlayer.init(playerName: "Bob", team: 1, loc: 1))
